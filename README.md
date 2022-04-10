@@ -13,6 +13,7 @@ The app is written without javascript frameworks, but parcel is used in develop 
 ### Dependencies
 
 *  NPM
+*  Parcel
 *  Requires https because the current caching implementation does
 
 ### Installing
@@ -21,20 +22,17 @@ The app is written without javascript frameworks, but parcel is used in develop 
 * Build
 ``` 
 npx parcel build ./src/index.html
-
 ```
 
 ### Executing program
 
-* npx parcel ./src/index.html
+*  Launch parcel server 
+``` 
+npx parcel ./src/index.html
 
-
-## Help
-
-Any advise 1for common problems or issues.
 ```
-command to run if program contains helper info
-```
+*  Open in https://localhost:1234
+
 
 ## Authors
 
