@@ -1,0 +1,74 @@
+﻿body {
+    font: 12px arial;
+    /*padding-top: 70px; fix navbar covering body top*/
+}
+
+a.btn {
+    text-decoration: none;
+    background-color: Silver;
+    padding: 0px 4px 0px 4px;
+}
+
+th.rightadjust, td.rightadjust {
+    text-align: right;
+}
+
+td.rowHighlight-left, td.rowHighlight-middle, td.rowHighlight-right {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+td.rowHighlight-left {
+    border-left: 3px solid black;
+}
+
+td.rowHighlight-right {
+    border-right: 3px solid black;
+}
+
+th.lft, td.lft {
+    text-align: left;
+}
+
+.style1 {
+    width: 100%;
+}
+
+a.optionsBtn {
+    position: relative;
+    top: 12px;
+}
+
+.SettingsPanel {
+    position: relative;
+    Border: Solid;
+    Border-width: 1px;
+    Width: 200px
+}
+
+.table-dayseparator {
+    background-color: LightBlue;
+}
+
+.table-separator-line {
+    border-top: 1px solid black;
+}
+
+.table-gridview {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.table-body {
+    border-left-style: none;
+}
+
+.table-head {
+    font-weight: bold;
+    background-color: aliceblue;
+}
+
+.table-highlighted-column, .table-highlighted-column-top {
+    font-weight: bold;
+    background-color: aliceblue;
+}
