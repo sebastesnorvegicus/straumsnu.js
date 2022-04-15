@@ -1,4 +1,12 @@
-// Try to get data from the cache, but fall back to fetching it live.
+/***
+ * Get data from url without cache
+ */
+async function getDataNoCache(url) {
+    console.log('Fetching fresh data (no cache)');
+    var result = await fetch(url);
+    return result.text();
+}
+
 /***
  * Get data from cache or from url and store to cache
  */
