@@ -29,6 +29,7 @@ async function getShiftedLevels(from, days, shiftMinutes) {
 
     console.log("Period of interest : ", from.format(), to.format());
     console.log("Period to get/cache: ", getFrom.format(), getTo.format());
+    
     const data = await getData(url)
         .then(xmlText => xmlText2json(xmlText))
         .then(json => extractLevelsFromJsonObject(json))
