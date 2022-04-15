@@ -8,14 +8,15 @@ The app fetches tidal info from Norwegian authorities Kartverket and displays it
 The app currently running on Straumsnu.no is written in asp.net. It is not available on Github. 
 
 This repo holds a new Straumsnu app being developed. It will be written in javascript without frameworks.
-[Parcel](https://parceljs.org/) is used under development and deploy. 
 
 ## Getting Started
 
 ### Dependencies
 
-*  NPM
-*  Parcel
+*  [NPM](https://www.npmjs.com/)
+*  [Parcel](https://parceljs.org/)
+*  [Bootstrap 5.1](https://getbootstrap.com/docs/5.1)
+*  [Moment](https://momentjs.com/)
 
 ### Installing / executing
 
