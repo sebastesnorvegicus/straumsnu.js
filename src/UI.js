@@ -8,9 +8,9 @@ function renderHome(container) {
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item"><a href="Index.html" class="nav-link">I dag</a></li>
-                <li class="nav-item"><a href="About.html" class="nav-link">Om</a></li>
-                <li class="nav-item"><a href="Contact.html" class="nav-link">Kontakt</a></li>
+                <li class="nav-item"><a href="index" class="nav-link">I dag</a></li>
+                <li class="nav-item"><a href="about" class="nav-link">Om</a></li>
+                <li class="nav-item"><a href="contact" class="nav-link">Kontakt</a></li>
             </ul>
         </div>
     </nav>
@@ -62,7 +62,7 @@ function renderHome(container) {
         </footer>`;
 }
 
-function About(container) {
+function renderAbout(container) {
     container.innerHTML =
         `<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom:15px;">
         </div>
@@ -183,4 +183,4 @@ function renderFooter(footerElement, state) {
     footerElement.innerHTML = `<center>Alle klokkeslett på Straumsnu.no er angitt i lokal tid for Saltstraumen<br/><small>${cap1stLetter(state.now.format("dddd D. MMM yyyy"))}, klokken er ${state.now.format("HH:mm:ss")}. </small></center>`;
 }
 
-export { renderHome, renderDays, clearDays, renderFooter };
+export { renderHome, renderAbout, renderDays, clearDays, renderFooter };
