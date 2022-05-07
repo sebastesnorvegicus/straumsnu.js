@@ -2,7 +2,7 @@ import moment from "moment";
 import toDayModels from "./model.js";
 import GetMoonPhaseByDay from "./moonphases.js";
 import getShiftedLevels from "./tidetimeshifter.js";
-import { renderHome, renderDays, clearDays, renderFooter } from "./UI.js";
+import { renderHome, renderAbout, renderDays, clearDays, renderFooter } from "./UI.js";
 
 function dateChangeHandler() {
     const value = this.value;
@@ -84,22 +84,28 @@ function addMoonPhase(dayModels) {
 }
 
 function getAndRenderDays() {
-    daysTableBodyElement = document.getElementById("renderElement");
+    var daysTableBodyElement = document.getElementById("renderElement");
     clearDays(daysTableBodyElement);
     getShiftedLevels(state.date, 7, 101)
             .then(shiftedLevels => toDayModels(shiftedLevels, state.now))
             .then(dayModels => addMoonPhase(dayModels))
-        .then(dayModelWithMoonPhase => renderDays(daysTableBodyElement, dayModelWithMoonPhase))
+            .then(dayModelWithMoonPhase => renderDays(daysTableBodyElement, dayModelWithMoonPhase))
             .catch (error => console.error('Failed fetching and rendering data: ' + error));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     require('moment/locale/nb');
     moment.locale('nb');
-    setInitialState();
-    renderHome(document.getElementById("container"));
-    setDatePickerValue(state.date.format("yyyy-MM-DD"));
-    addControlsEventListeners();
-    renderFooter(document.getElementById("footer"), state);
-    getAndRenderDays();
+    
+    if (window.location.pathname === '/about') {
+        setInitialState();
+        renderAbout(document.getElementById("container"));
+    } else {
+        setInitialState();
+        renderHome(document.getElementById("container"));
+        setDatePickerValue(state.date.format("yyyy-MM-DD"));
+        addControlsEventListeners();
+        renderFooter(document.getElementById("footer"), state);
+        getAndRenderDays();
+    }
 });
