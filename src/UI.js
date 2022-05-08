@@ -63,7 +63,7 @@ function renderDayTable(container) {
                 <tbody id="renderElement">
                 </tbody>
                 <tfoot>
-                    <tr><td colspan="7"><p><center>Alle klokkeslett på Straumsnu.no er angitt i lokal tid for Saltstraumen</center></p></td></tr>
+                    <tr><td colspan="7"><p><center>Alle klokkeslett er angitt i lokal tid for Saltstraumen</center></p></td></tr>
                 </tfoot>
             </table>
         </div>`;
@@ -128,9 +128,19 @@ function renderDays(daysTableBodyElement, days) {
     });
 }
 
-function renderAboutDay(daysTableBodyElement, days, state) {
+function renderContact(daysTableBodyElement) {
+    daysTableBodyElement.innerHTML =
+        `<p style="font-size:larger">
+    Straumsnu.no er utviklet av Dag Pedersen.<br />
+    <br />
+    Har du spørsmål eller innspill? <br />
+    Ta gjerne kontakt på e-post <a href="mailto:pedersendag@gmail.com">pedersendag@gmail.com</a>.<br />
+</p>`;
+}
 
-    var upcoming = days[0].levels.filter(a => a.shiftedTime > state.now);
+function renderAboutDay(daysTableBodyElement, days, state) {
+    var allLevels = days[0].levels.concat(days[1].levels);
+    var upcoming = allLevels.filter(a => a.shiftedTime > state.now);
     var next = upcoming[0];
     
     let newNode = document.createElement("div");
@@ -139,9 +149,11 @@ function renderAboutDay(daysTableBodyElement, days, state) {
             <h5>Om tabellen</h5>
             <p style="font-size:larger">
                 Det er ${state.now.format("dddd D. MMMM")}, og klokka er ${state.now.format("HH:mm")}.<br />
+            </p>
+            <p style="font-size:larger">
                 Tabellen viser at neste straumsnu er ved <strong>${next.flag === "high" ? "flo" : "fjære"}</strong> sjø
                 ${next.shiftedTime.startOf('day').isSame(state.now.startOf('day')) ? "" : "i morgen"} 
-                klokka <strong>${next.shiftedTimeDisplayText}</strong>.
+                klokka <strong>${next.shiftedTimeDisplayText}</strong>.<br/>
                 Nivået vil da være ${next.level} cm, <strong>${Math.abs(next.diff)} </strong> ${next.diff > 0 ? "høyere" : "lavere"} enn ved ${next.flag === "high" ? "fjære" : "flo"}.
             </p>
         </div>`;
@@ -149,28 +161,31 @@ function renderAboutDay(daysTableBodyElement, days, state) {
     var tblprnt = tbl.parentNode;
     tblprnt.insertBefore(newNode, tbl);
     
-    days.forEach(day => {
-        var tr = document.createElement('tr');
-        tr.innerHTML = `<tr rowspan="5">
+    days.forEach((day, index) => {
+
+        if (index === 0 || day.levels[index].shiftedTime.startOf('day').isSame(next.shiftedTime.startOf('day'))) {
+            var tr = document.createElement('tr');
+            tr.innerHTML = `<tr rowspan="5">
                             <td rowspan="${day.levels.length + 1}" class="table-highlighted-column" style="vertical-align: top;background-color: aliceblue;">${day.dayDisplayText}${getMoonPhaseHTML(day.moonPhase)}</td>
                         </tr>`;
-        daysTableBodyElement.appendChild(tr);
+            daysTableBodyElement.appendChild(tr);
 
-        day.levels.forEach(level => {
-            tr = document.createElement('tr');
-            tr.innerHTML = `<tr>
-                                <td class="${level == next ?  'rowHighlight-left' : ''}">${level.flag}</td>
+            day.levels.forEach(level => {
+                tr = document.createElement('tr');
+                tr.innerHTML = `<tr>
+                                <td class="${level == next ? 'rowHighlight-left' : ''}">${level.flag}</td>
                                 <td class="${level == next ? 'rowHighlight-middle' : ''}">${level.timeDisplayText}</td>
                                 <td class="${level == next ? 'rowHighlight-middle' : ''}">${level.add}</td>
                                 <td class="table-highlighted-column ${level == next ? 'rowHighlight-middle' : ''}" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}</td>
                                 <td class="rightadjust ${level == next ? 'rowHighlight-middle' : ''}">${level.level}</td>
                                 <td class="rightadjust table-highlighted-column ${level == next ? 'rowHighlight-right' : ''}" style="background-color: aliceblue;">${level.diff}</td>
                             </tr>`;
-            daysTableBodyElement.appendChild(tr);
-        });
-        const tr3 = document.createElement('tr');
-        tr3.innerHTML = `<td colspan="7"></td>`;
-        daysTableBodyElement.appendChild(tr3);
+                daysTableBodyElement.appendChild(tr);
+            });
+            const tr3 = document.createElement('tr');
+            tr3.innerHTML = `<td colspan="7"></td>`;
+            daysTableBodyElement.appendChild(tr3);
+        }
     });
 }
 
@@ -200,8 +215,15 @@ function cap1stLetter(s) {
     return s[0].toUpperCase() + s.substr(1)
 }
 
-function renderFooter(footerElement, state) {
-    footerElement.innerHTML = `<center>Alle klokkeslett på Straumsnu.no er angitt i lokal tid for Saltstraumen<br/><small>${cap1stLetter(state.now.format("dddd D. MMM yyyy"))}, klokken er ${state.now.format("HH:mm:ss")}. </small></center>`;
+function renderFooter(container, state) {
+    const div = document.createElement('div');
+    div.innerHTML = `<footer style="padding-bottom: 15px;">
+        Data: <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata" target="_blank">Kartverket</a>
+        <br>
+        Med forbehold om feil.<br>
+        <a href="mailto:pedersendag@gmail.com">Dag Pedersen</a> © 2009 - 2022
+    </footer>`;
+    container.appendChild(div);
 }
 
-export { renderNav, renderHome, renderAbout, renderDays, renderAboutDay, clearDays, renderFooter };
+export { renderNav, renderHome, renderAbout, renderDays, renderAboutDay, clearDays, renderContact, renderFooter };

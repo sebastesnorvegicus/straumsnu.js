@@ -2,7 +2,11 @@ import moment from "moment";
 import toDayModels from "./model.js";
 import GetMoonPhaseByDay from "./moonphases.js";
 import getShiftedLevels from "./tidetimeshifter.js";
-import { renderHome, renderNav, renderAbout, renderDays, renderAboutDay, clearDays } from "./UI.js";
+import {
+    renderHome, renderNav, renderAbout,
+    renderDays, renderAboutDay, clearDays,
+    renderContact, renderFooter
+} from "./UI.js";
 
 function dateChangeHandler() {
     const value = this.value;
@@ -101,11 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setInitialState();
     if (window.location.pathname === '/about') {
         renderAbout(document.getElementById("container"));
-        getAndRenderDays(1, renderAboutDay);
+        getAndRenderDays(2, renderAboutDay);
+        renderFooter(document.getElementById("container"), state);
+    } else if(window.location.pathname === '/contact') {
+        renderContact(document.getElementById("container"));
     } else {
         renderHome(document.getElementById("container"));
         setDatePickerValue(state.date.format("yyyy-MM-DD"));
         addControlsEventListeners();
         getAndRenderDays(7, renderDays);
+        renderFooter(document.getElementById("container"), state);
     }
 });
