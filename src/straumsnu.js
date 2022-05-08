@@ -7,7 +7,7 @@ import { renderHome, renderNav, renderAbout, renderDays, renderAboutDay, clearDa
 function dateChangeHandler() {
     const value = this.value;
     state.date = moment(value);
-    getAndRenderDays();
+    getAndRenderDays(7, renderDays);
 }
 
 function setDatePickerValue(date) {
@@ -18,7 +18,7 @@ function setDatePickerValue(date) {
 function GotoToday() {
     state.date = new moment(state.now).startOf('day');
     setDatePickerValue(state.date.format("yyyy-MM-DD"));
-    getAndRenderDays();
+    getAndRenderDays(7, renderDays);
 }
 
 function GotoNextSaturday() {
@@ -31,7 +31,7 @@ function GotoNextSaturday() {
         state.date = state.date.add(1, 'weeks').isoWeekday(dayINeed);
     }
     setDatePickerValue(state.date.format("yyyy-MM-DD"));
-    getAndRenderDays();
+    getAndRenderDays(7, renderDays);
 }
 
 function GotoPreviousSaturday() {
@@ -44,7 +44,7 @@ function GotoPreviousSaturday() {
         state.date = state.date.add(-1, 'weeks').isoWeekday(dayINeed);
     }
     setDatePickerValue(state.date.format("yyyy-MM-DD"));
-    getAndRenderDays();
+    getAndRenderDays(7, renderDays);
 }
 
 function setInitialState() {
@@ -86,7 +86,7 @@ function addMoonPhase(dayModels) {
 function getAndRenderDays(dayCount, renderer) {
     var daysTableBodyElement = document.getElementById("renderElement");
     clearDays(daysTableBodyElement);
-    getShiftedLevels(state.date, dayCount, 101)
+    getShiftedLevels(state.date, dayCount, 101) // shift 101 minutes (1h 41 minutes)
         .then(shiftedLevels => toDayModels(shiftedLevels, state.now))
         .then(dayModels => addMoonPhase(dayModels))
         .then(dayModelWithMoonPhase => renderer(daysTableBodyElement, dayModelWithMoonPhase, state))

@@ -48,7 +48,7 @@ function renderControls(container) {
 function renderDayTable(container) {
     container.innerHTML += `
         <div>
-            <table class="table">
+            <table class="table w-auto">
                 <thead>
                     <tr>
                         <th style="background-color: aliceblue;">Dato</th>
@@ -70,33 +70,24 @@ function renderDayTable(container) {
 }
 
 function renderAbout(container) {
-    container.innerHTML +=
-        `<div>
-            <h5>Om tabellen</h5>
-            <p style="font-size:larger">
-                Det er @now.ToString("dddd d. MMMM"), og klokka er @now.ToString(@"HH\:mm").<br />
-                Tabellen viser at neste straumsnu er ved <strong>@(nextUpcomingPrediction.Flag.Equals("high") ? "flo" : "fjære")</strong> sjø @(nextUpcomingPrediction.Time.Date.Equals(now.Date) ? "" : "i morgen") klokka <strong>@nextUpcomingPrediction.Time.ToString(@"HH\:mm")</strong>.
-                Nivået vil da være @(nextUpcomingPrediction.Level) cm, <strong>@Math.Abs(nextUpcomingPrediction.Diff.Value)</strong> @(nextUpcomingPrediction.Diff.Value > 0 ? "høyere" : "lavere") enn ved @(lastPrediction.Flag.Equals("high") ? "flo" : "fjære").
-            </p>`;
     
     renderDayTable(container);
 
     container.innerHTML +=
         `<p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Detaljer
-                </a>
-            </p>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    <p>Saltstraumen snur på flo og fjære, ca 1 time og 41 minutter etter flo og fjære i Bodø. Straumsnu skjer 4 eller 3 ganger i døgnet.</p>
-                    <p>Tabellens første kolonner <strong>Dato</strong> og <strong>Bodø</strong> viser beregnet dato og tidspunkt for flo og fjære i Bodø.</p>
-                    <p>Neste kolonne <strong>Till</strong> viser tillegget på 1 time og 41 minutter. </p>
-                    <p>Kolonnen <strong>Snur</strong> viser beregnet tidspunkt for straumsnu. <i>NB! Beregnet tidspunkt er ikke nøyaktig.</i> Det vil påvirkes av bl.a. trykk og vindforhold. Selv om dette er beste gjetning, kan Saltstraumen snu oppmot en halv time før eller etter dette tidspunktet.</p>
-                    <p>Kolonnen <strong>Nivå</strong> viser beregnet nivå ved flo/fjære i Bodø. Nivået er i cm over sjøkartnull.</p>
-                    <p>Kolonnen <strong>Diff</strong> viser forskjellen fra forrige beregnet nivå. Differansen er en god indikator på strømmens styrke. Jo større absoluttverdi, jo sterkere strøm.</p>
-                    <p>Løsningen benytter data som hentes fra <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata" target="_blank">Kartverket</a>.</p>
-                </div>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Detaljer
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <p>Saltstraumen snur på flo og fjære, ca 1 time og 41 minutter etter flo og fjære i Bodø. Straumsnu skjer 4 eller 3 ganger i døgnet.</p>
+                <p>Tabellens første kolonner <strong>Dato</strong> og <strong>Bodø</strong> viser beregnet dato og tidspunkt for flo og fjære i Bodø.</p>
+                <p>Neste kolonne <strong>Till</strong> viser tillegget på 1 time og 41 minutter. </p>
+                <p>Kolonnen <strong>Snur</strong> viser beregnet tidspunkt for straumsnu. <i>NB! Beregnet tidspunkt er ikke nøyaktig.</i> Det vil påvirkes av bl.a. trykk og vindforhold. Selv om dette er beste gjetning, kan Saltstraumen snu oppmot en halv time før eller etter dette tidspunktet.</p>
+                <p>Kolonnen <strong>Nivå</strong> viser beregnet nivå ved flo/fjære i Bodø. Nivået er i cm over sjøkartnull.</p>
+                <p>Kolonnen <strong>Diff</strong> viser forskjellen fra forrige beregnet nivå. Differansen er en god indikator på strømmens styrke. Jo større absoluttverdi, jo sterkere strøm.</p>
+                <p>Løsningen benytter data som hentes fra <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata" target="_blank">Kartverket</a>.</p>
             </div>
         </div>`;
 }
@@ -138,8 +129,26 @@ function renderDays(daysTableBodyElement, days) {
 }
 
 function renderAboutDay(daysTableBodyElement, days, state) {
+
     var upcoming = days[0].levels.filter(a => a.shiftedTime > state.now);
     var next = upcoming[0];
+    
+    let newNode = document.createElement("div");
+    newNode.innerHTML =
+        `<div>
+            <h5>Om tabellen</h5>
+            <p style="font-size:larger">
+                Det er ${state.now.format("dddd D. MMMM")}, og klokka er ${state.now.format("HH:mm")}.<br />
+                Tabellen viser at neste straumsnu er ved <strong>${next.flag === "high" ? "flo" : "fjære"}</strong> sjø
+                ${next.shiftedTime.startOf('day').isSame(state.now.startOf('day')) ? "" : "i morgen"} 
+                klokka <strong>${next.shiftedTimeDisplayText}</strong>.
+                Nivået vil da være ${next.level} cm, <strong>${Math.abs(next.diff)} </strong> ${next.diff > 0 ? "høyere" : "lavere"} enn ved ${next.flag === "high" ? "fjære" : "flo"}.
+            </p>
+        </div>`;
+    var tbl = daysTableBodyElement.parentNode;
+    var tblprnt = tbl.parentNode;
+    tblprnt.insertBefore(newNode, tbl);
+    
     days.forEach(day => {
         var tr = document.createElement('tr');
         tr.innerHTML = `<tr rowspan="5">
