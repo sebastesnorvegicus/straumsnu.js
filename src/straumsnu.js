@@ -2,7 +2,7 @@ import moment from "moment";
 import toDayModels from "./model.js";
 import GetMoonPhaseByDay from "./moonphases.js";
 import getShiftedLevels from "./tidetimeshifter.js";
-import { renderHome, renderAbout, renderDays, clearDays, renderFooter } from "./UI.js";
+import { renderHome, renderNav, renderAbout, renderDays, renderAboutDay, clearDays } from "./UI.js";
 
 function dateChangeHandler() {
     const value = this.value;
@@ -83,29 +83,29 @@ function addMoonPhase(dayModels) {
     return array;
 }
 
-function getAndRenderDays() {
+function getAndRenderDays(dayCount, renderer) {
     var daysTableBodyElement = document.getElementById("renderElement");
     clearDays(daysTableBodyElement);
-    getShiftedLevels(state.date, 7, 101)
-            .then(shiftedLevels => toDayModels(shiftedLevels, state.now))
-            .then(dayModels => addMoonPhase(dayModels))
-            .then(dayModelWithMoonPhase => renderDays(daysTableBodyElement, dayModelWithMoonPhase))
-            .catch (error => console.error('Failed fetching and rendering data: ' + error));
+    getShiftedLevels(state.date, dayCount, 101)
+        .then(shiftedLevels => toDayModels(shiftedLevels, state.now))
+        .then(dayModels => addMoonPhase(dayModels))
+        .then(dayModelWithMoonPhase => renderer(daysTableBodyElement, dayModelWithMoonPhase, state))
+        .catch (error => console.error('Failed fetching and rendering data: ' + error));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     require('moment/locale/nb');
     moment.locale('nb');
     
+    renderNav(document.getElementById("header"));
+    setInitialState();
     if (window.location.pathname === '/about') {
-        setInitialState();
         renderAbout(document.getElementById("container"));
+        getAndRenderDays(1, renderAboutDay);
     } else {
-        setInitialState();
         renderHome(document.getElementById("container"));
         setDatePickerValue(state.date.format("yyyy-MM-DD"));
         addControlsEventListeners();
-        renderFooter(document.getElementById("footer"), state);
-        getAndRenderDays();
+        getAndRenderDays(7, renderDays);
     }
 });

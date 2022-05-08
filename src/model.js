@@ -4,9 +4,11 @@ function toLevelModel(level) {
     const shiftMinutes = moment.duration(level.shiftedTime.diff(level.time)).asMinutes();
     return ({
         flag: level.flag == 'low' ? 'Fjære' : 'Flo',
-        time: level.time.format("HH:mm"),
+        time: level.time,
+        timeDisplayText: level.time.format("HH:mm"),
         add: '' + Math.floor(shiftMinutes / 60) + ':' + shiftMinutes % 60,
-        shiftedTime: level.shiftedTime.format("HH:mm"),
+        shiftedTime: level.shiftedTime,
+        shiftedTimeDisplayText: level.shiftedTime.format("HH:mm"),
         level: Math.round(level.value),
         diff: Math.round(level.diff)
     });

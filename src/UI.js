@@ -1,5 +1,5 @@
-function renderHome(container) {
-    container.innerHTML = `
+    function renderNav(header) {
+        header.innerHTML = `
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:15px;">
         <button id="btnHome" type="button" class="btn" style="border: 0; focus{outline: 0}"><h3>Når snur Saltstraumen?</h3></button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
@@ -13,7 +13,16 @@ function renderHome(container) {
                 <li class="nav-item"><a href="contact" class="nav-link">Kontakt</a></li>
             </ul>
         </div>
-    </nav>
+    </nav>`;
+    }
+
+function renderHome(container) {
+    renderControls(container);
+    renderDayTable(container);
+}
+
+function renderControls(container) {
+    container.innerHTML = `
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom:15px;">
             <div class="btn-group mr-2" role="group" aria-label="First group">
                 <button button="" id="previousSaturday" type="button" class="btn btn-light btn-sm" data-toggle="tooltip" data-placement="top"
@@ -33,6 +42,11 @@ function renderHome(container) {
                 </button>
             </div>
         </div>
+`;
+}
+
+function renderDayTable(container) {
+    container.innerHTML += `
         <div>
             <table class="table">
                 <thead>
@@ -49,49 +63,26 @@ function renderHome(container) {
                 <tbody id="renderElement">
                 </tbody>
                 <tfoot>
-                    <tr><td colspan="7"><p id = "footer"></p></td></tr>
+                    <tr><td colspan="7"><p><center>Alle klokkeslett på Straumsnu.no er angitt i lokal tid for Saltstraumen</center></p></td></tr>
                 </tfoot>
             </table>
-        </div>
-        <footer style="padding-bottom: 15px;">
-            Data: <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata"
-                target="_blank">Kartverket</a>
-            <br>
-            Med forbehold om feil.<br>
-            <a href="mailto:pedersendag@gmail.com">Dag Pedersen</a> © 2009 - 2022
-        </footer>`;
+        </div>`;
 }
 
 function renderAbout(container) {
-    container.innerHTML =
-        `<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom:15px;">
-        </div>
-        <div>
+    container.innerHTML +=
+        `<div>
             <h5>Om tabellen</h5>
             <p style="font-size:larger">
                 Det er @now.ToString("dddd d. MMMM"), og klokka er @now.ToString(@"HH\:mm").<br />
                 Tabellen viser at neste straumsnu er ved <strong>@(nextUpcomingPrediction.Flag.Equals("high") ? "flo" : "fjære")</strong> sjø @(nextUpcomingPrediction.Time.Date.Equals(now.Date) ? "" : "i morgen") klokka <strong>@nextUpcomingPrediction.Time.ToString(@"HH\:mm")</strong>.
                 Nivået vil da være @(nextUpcomingPrediction.Level) cm, <strong>@Math.Abs(nextUpcomingPrediction.Diff.Value)</strong> @(nextUpcomingPrediction.Diff.Value > 0 ? "høyere" : "lavere") enn ved @(lastPrediction.Flag.Equals("high") ? "flo" : "fjære").
-            </p>
-            <table class="table w-auto">
-                <thead>
-                    <tr>
-                        <th style="background-color: aliceblue;">Dato</th>
-                        <th style="background-color: aliceblue;">Bodø</th>
-                        <th style="background-color: aliceblue;"></th>
-                        <th style="background-color: aliceblue;">Till</th>
-                        <th style="background-color: aliceblue;">Snur</th>
-                        <th style="background-color: aliceblue;">Nivå</th>
-                        <th style="background-color: aliceblue;">Diff</th>
-                    </tr>
-                </thead>
-                <tbody id="renderElement">
-                </tbody>
-                <tfoot>
-                    <tr><td colspan="7"><p id = "footer"></p></td></tr>
-                </tfoot>
-            </table>
-            <p>
+            </p>`;
+    
+    renderDayTable(container);
+
+    container.innerHTML +=
+        `<p>
                 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     Detaljer
                 </a>
@@ -107,14 +98,7 @@ function renderAbout(container) {
                     <p>Løsningen benytter data som hentes fra <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata" target="_blank">Kartverket</a>.</p>
                 </div>
             </div>
-                    </div>
-        <footer style="padding-bottom: 15px;">
-            Data: <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata"
-                target="_blank">Kartverket</a>
-            <br>
-            Med forbehold om feil.<br>
-            <a href="mailto:pedersendag@gmail.com">Dag Pedersen</a> © 2009 - 2022
-        </footer>`;
+        </div>`;
 }
 
 function clearDays(daysTBodyElement) {
@@ -139,11 +123,39 @@ function renderDays(daysTableBodyElement, days) {
             const tr = document.createElement('tr');
             tr.innerHTML = `<tr>
                                 <td>${level.flag}</td>
-                                <td>${level.time}</td>
+                                <td>${level.timeDisplayText}</td>
                                 <td>${level.add}</td>
-                                <td class="table-highlighted-column" style="background-color: aliceblue;">${level.shiftedTime}</td>
+                                <td class="table-highlighted-column" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}</td>
                                 <td class="rightadjust">${level.level}</td>
                                 <td class="rightadjust table-highlighted-column" style="background-color: aliceblue;">${level.diff}</td>
+                            </tr>`;
+            daysTableBodyElement.appendChild(tr);
+        });
+        const tr3 = document.createElement('tr');
+        tr3.innerHTML = `<td colspan="7"></td>`;
+        daysTableBodyElement.appendChild(tr3);
+    });
+}
+
+function renderAboutDay(daysTableBodyElement, days, state) {
+    var upcoming = days[0].levels.filter(a => a.shiftedTime > state.now);
+    var next = upcoming[0];
+    days.forEach(day => {
+        var tr = document.createElement('tr');
+        tr.innerHTML = `<tr rowspan="5">
+                            <td rowspan="${day.levels.length + 1}" class="table-highlighted-column" style="vertical-align: top;background-color: aliceblue;">${day.dayDisplayText}${getMoonPhaseHTML(day.moonPhase)}</td>
+                        </tr>`;
+        daysTableBodyElement.appendChild(tr);
+
+        day.levels.forEach(level => {
+            tr = document.createElement('tr');
+            tr.innerHTML = `<tr>
+                                <td class="${level == next ?  'rowHighlight-left' : ''}">${level.flag}</td>
+                                <td class="${level == next ? 'rowHighlight-middle' : ''}">${level.timeDisplayText}</td>
+                                <td class="${level == next ? 'rowHighlight-middle' : ''}">${level.add}</td>
+                                <td class="table-highlighted-column ${level == next ? 'rowHighlight-middle' : ''}" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}</td>
+                                <td class="rightadjust ${level == next ? 'rowHighlight-middle' : ''}">${level.level}</td>
+                                <td class="rightadjust table-highlighted-column ${level == next ? 'rowHighlight-right' : ''}" style="background-color: aliceblue;">${level.diff}</td>
                             </tr>`;
             daysTableBodyElement.appendChild(tr);
         });
@@ -183,4 +195,4 @@ function renderFooter(footerElement, state) {
     footerElement.innerHTML = `<center>Alle klokkeslett på Straumsnu.no er angitt i lokal tid for Saltstraumen<br/><small>${cap1stLetter(state.now.format("dddd D. MMM yyyy"))}, klokken er ${state.now.format("HH:mm:ss")}. </small></center>`;
 }
 
-export { renderHome, renderAbout, renderDays, clearDays, renderFooter };
+export { renderNav, renderHome, renderAbout, renderDays, renderAboutDay, clearDays, renderFooter };
