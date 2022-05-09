@@ -4,11 +4,12 @@ import xmlText2json from "./xml2json";
 
 /** Get astronomically predicted low / high tide level objects from kartverket.no for a period
  * @returns an array of objects with properties
- *      { @property {number} value       - sea level at high/low tide
- *        @property {moment} time        - time of high/low tide
- *        @property {string} flag        - "high" or "low"
- *        @property {moment} shiftedTime - time + parameter shiftMinutes
- *        @property {number} diff        - difference from previous level
+ *      { @property {number} value         - sea level at high/low tide
+ *        @property {moment} time          - time of high/low tide
+ *        @property {string} flag          - "high" or "low"
+ *        @property {moment} shiftedTime   - time + parameter shiftMinutes
+ *        @property {number} diff          - value difference from previous level
+ *        @property {number} utcOffsetDiff - utcOffset difference from previous level (60 or -60)
  *       }
  * @param {moment} fromTime Period of interest's start time
  * @param {number} days Period length in days 
@@ -50,13 +51,20 @@ function extractLevelsFromJsonObject(json) {
 }
 
 function shiftLevels(levels, shiftMinutes) {
-    return levels.map((level, index, array) => ({
-        value: level.value,
-        time: moment(level.time),
-        shiftedTime: moment(level.time).add(shiftMinutes, 'm'),
-        flag: level.flag,
-        diff: index > 0 ? level.value - array[index - 1].value : null
-    }));
+    return levels.map((level, index, array) => {
+        const _shiftedTime = moment(level.time).add(shiftMinutes, 'm');
+        const _utcOffsetDiff = index > 0
+            ? _shiftedTime.utcOffset() - moment(array[index - 1].time).add(shiftMinutes, 'm').utcOffset()
+            : 0;
+        return {
+            value: level.value,
+            time: moment(level.time),
+            shiftedTime: _shiftedTime,
+            flag: level.flag,
+            diff: index > 0 ? level.value - array[index - 1].value : null,
+            utcOffsetDiff: _utcOffsetDiff
+        }
+    });
 }
 
 export default getShiftedLevels;

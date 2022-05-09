@@ -10,7 +10,8 @@ function toLevelModel(level) {
         shiftedTime: level.shiftedTime,
         shiftedTimeDisplayText: level.shiftedTime.format("HH:mm"),
         level: Math.round(level.value),
-        diff: Math.round(level.diff)
+        diff: Math.round(level.diff),
+        utcOffsetDiff: level.utcOffsetDiff
     });
 }
 
@@ -39,22 +40,15 @@ function toDayModels(shiftedLevels, now) {
     let dayLevel = null;
     let daylevels = [];
     let day = null;
-    let FirstLevelAfterDSTChange = [];
     for (let i = 0; i < shiftedLevels.length; i++) {
-        var utcOffSetChange = 0;
-        if (i > 0) {
-            utcOffSetChange = shiftedLevels[i].shiftedTime.utcOffset() - shiftedLevels[i - 1].shiftedTime.utcOffset();
-        }
-        if (utcOffSetChange != 0) {
-            FirstLevelAfterDSTChange.push({ offsetChange: utcOffSetChange, level: shiftedLevels[i] });
-        }
+
         const time = shiftedLevels[i].shiftedTime;
         if (!moment(time).startOf('day').isSame(day)) {
             day = moment(time).startOf('day');
             dayLevel = {
                 day: day,
                 dayDisplayText: getDayDisplayText(day, now),
-                levels: [toLevelModel(shiftedLevels[i])]
+                levels: [toLevelModel(shiftedLevels[i])] 
             }
             daylevels.push(dayLevel);
         } else {

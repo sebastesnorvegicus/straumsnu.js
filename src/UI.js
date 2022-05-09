@@ -116,15 +116,29 @@ function renderDays(daysTableBodyElement, days) {
                                 <td>${level.flag}</td>
                                 <td>${level.timeDisplayText}</td>
                                 <td>${level.add}</td>
-                                <td class="table-highlighted-column" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}</td>
+                                <td class="table-highlighted-column" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}
+                                ${level.utcOffsetDiff !== 0 ? "*" : "" }</td>
                                 <td class="rightadjust">${level.level}</td>
                                 <td class="rightadjust table-highlighted-column" style="background-color: aliceblue;">${level.diff}</td>
                             </tr>`;
             daysTableBodyElement.appendChild(tr);
         });
-        const tr3 = document.createElement('tr');
-        tr3.innerHTML = `<td colspan="7"></td>`;
+        var tr3 = document.createElement('tr');
+        const utcDiffThisDay = day.levels.filter(l => l.utcOffsetDiff !== 0)[0];
+        tr3.innerHTML = `<td colspan="7">
+        ${utcDiffThisDay
+            ? utcDiffThisDay.utcOffsetDiff === 60
+                ? "<i><strong>*</strong> Første straumsnu etter bytte til sommertid. Husk å stille klokka!</i><br/>"
+                : "<i><strong>*</strong> Første straumsnu etter bytte tilbake til normaltid. Husk å stille klokka!</i><br/>"
+                : ""}
+            </td>`;
         daysTableBodyElement.appendChild(tr3);
+        
+        if (utcDiffThisDay) {
+            tr3 = document.createElement('tr');
+            tr3.innerHTML = `<td colspan="7"></td>`;
+            daysTableBodyElement.appendChild(tr3);
+        }
     });
 }
 
@@ -176,7 +190,8 @@ function renderAboutDay(daysTableBodyElement, days, state) {
                                 <td class="${level == next ? 'rowHighlight-left' : ''}">${level.flag}</td>
                                 <td class="${level == next ? 'rowHighlight-middle' : ''}">${level.timeDisplayText}</td>
                                 <td class="${level == next ? 'rowHighlight-middle' : ''}">${level.add}</td>
-                                <td class="table-highlighted-column ${level == next ? 'rowHighlight-middle' : ''}" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}</td>
+                                <td class="table-highlighted-column ${level == next ? 'rowHighlight-middle' : ''}" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}
+                                ${level.utcOffsetDiff !== 0 ? "*" : "" }</td>
                                 <td class="rightadjust ${level == next ? 'rowHighlight-middle' : ''}">${level.level}</td>
                                 <td class="rightadjust table-highlighted-column ${level == next ? 'rowHighlight-right' : ''}" style="background-color: aliceblue;">${level.diff}</td>
                             </tr>`;
