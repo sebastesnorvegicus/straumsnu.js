@@ -69,6 +69,17 @@ function setInitialState() {
     }
 }
 
+function setDateFromPath() {
+    const path = window.location.pathname
+    if (path.startsWith("/Home/Index")) {
+        const datePath = path.substring(11);
+        const date = moment(datePath);
+        if (date._isValid) {
+            state.date = date;
+        }
+    }
+}
+
 var state = {};
 
 function addControlsEventListeners() {
@@ -102,14 +113,19 @@ document.addEventListener('DOMContentLoaded', () => {
     moment.locale('nb');
     
     renderNav(document.getElementById("header"));
-    setInitialState();
-    if (window.location.pathname === '/about') {
+    if (window.location.pathname === '/Home/About') {
+        setInitialState();
         renderAbout(document.getElementById("container"));
         getAndRenderDays(2, renderAboutDay);
         renderFooter(document.getElementById("container"), state);
-    } else if(window.location.pathname === '/contact') {
+    } else if (window.location.pathname === '/Home/Contact') {
         renderContact(document.getElementById("container"));
     } else {
+        if (!window.location.pathname.startsWith("/Home/Index")) {
+            window.history.pushState("", "", "/Home/Index");
+        }
+        setInitialState();
+        setDateFromPath();
         renderHome(document.getElementById("container"));
         setDatePickerValue(state.date.format("yyyy-MM-DD"));
         addControlsEventListeners();

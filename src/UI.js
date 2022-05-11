@@ -8,9 +8,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item"><a href="index" class="nav-link">I dag</a></li>
-                <li class="nav-item"><a href="about" class="nav-link">Om</a></li>
-                <li class="nav-item"><a href="contact" class="nav-link">Kontakt</a></li>
+                <li class="nav-item"><a href="Index" class="nav-link">I dag</a></li>
+                <li class="nav-item"><a href="About" class="nav-link">Om</a></li>
+                <li class="nav-item"><a href="Contact" class="nav-link">Kontakt</a></li>
             </ul>
         </div>
     </nav>`;
