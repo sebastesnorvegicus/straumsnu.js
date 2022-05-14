@@ -12,6 +12,7 @@ function dateChangeHandler() {
     const value = this.value;
     state.date = moment(value);
     getAndRenderDays(7, renderDays);
+    updateUrlFromDate();
 }
 
 function setDatePickerValue(date) {
@@ -23,6 +24,7 @@ function GotoToday() {
     state.date = new moment(state.now).startOf('day');
     setDatePickerValue(state.date.format("yyyy-MM-DD"));
     getAndRenderDays(7, renderDays);
+    updateUrlFromDate();
 }
 
 function GotoNextSaturday() {
@@ -36,6 +38,7 @@ function GotoNextSaturday() {
     }
     setDatePickerValue(state.date.format("yyyy-MM-DD"));
     getAndRenderDays(7, renderDays);
+    updateUrlFromDate();
 }
 
 function GotoPreviousSaturday() {
@@ -49,6 +52,7 @@ function GotoPreviousSaturday() {
     }
     setDatePickerValue(state.date.format("yyyy-MM-DD"));
     getAndRenderDays(7, renderDays);
+    updateUrlFromDate();
 }
 
 function setInitialState() {
@@ -70,7 +74,7 @@ function setInitialState() {
 }
 
 function setDateFromPath() {
-    const path = window.location.pathname
+    const path = window.location.pathname;
     if (path.startsWith("/Home/Index")) {
         const datePath = path.substring(11);
         const date = moment(datePath);
@@ -80,7 +84,20 @@ function setDateFromPath() {
     }
 }
 
-var state = {};
+var state = {
+    get date() {
+        return this._date;
+    },
+    set date(value) {
+        this._date = value;
+    }
+};
+
+function updateUrlFromDate() {
+    if (window.location.pathname.startsWith("/Home/Index")) {
+        window.history.pushState("", "", "/Home/Index/" + state.date.format("yyyy-MM-DD"));
+    }
+}
 
 function addControlsEventListeners() {
     document.getElementById("previousSaturday").addEventListener('click', GotoPreviousSaturday);

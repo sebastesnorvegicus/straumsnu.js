@@ -222,7 +222,7 @@ function getMoonPhaseHTML(moonPhase) {
             default: displayText = "Invalid moonphase " + moonPhase;
                 break;
         }
-        return `<center><br /><br /><img width="12" height="12" Title="${displayText}" src="images/${moonPhase}.svg" alt="Månefase ${moonPhase}" /></center>`
+        return `<center><br /><br /><img width="12" height="12" Title="${displayText}" src="/images/${moonPhase}.svg" alt="Månefase ${moonPhase}" /></center>`
     }
 }
 
