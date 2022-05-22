@@ -1,19 +1,20 @@
     function renderNav(header) {
         header.innerHTML = `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:15px;">
-        <button id="btnHome" type="button" class="btn" style="border: 0; focus{outline: 0}"><h3>Når snur Saltstraumen?</h3></button>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item"><a href="/Uke/IDag" class="nav-link">I dag</a></li>
-                <li class="nav-item"><a href="/Om" class="nav-link">Om</a></li>
-                <li class="nav-item"><a href="/Kontakt" class="nav-link">Kontakt</a></li>
-            </ul>
-        </div>
-    </nav>`;
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a  id="btnHome" class="navbar-brand" href="#">Når snur Saltstraumen?</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+           <li class="nav-item"><a href="/Uke/IDag" class="nav-link">I dag</a></li>
+           <li class="nav-item"><a href="/Om" class="nav-link">Om</a></li>
+           <li class="nav-item"><a href="/Kontakt" class="nav-link">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>`;
     }
 
 function renderHome(container) {
