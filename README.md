@@ -21,6 +21,10 @@ This repo holds a new Straumsnu app being developed. It will be written in javas
 ### Installing / executing
 
 * Clone/fork Github repo
+* Install dependencies:
+``` 
+npx install
+```
 * Build and launch app on local development server:
 ``` 
 npx parcel .\src\index.html
