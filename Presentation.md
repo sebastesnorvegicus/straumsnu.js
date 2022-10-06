@@ -3,8 +3,9 @@ Display turning times of the tidal current in Saltstraumen, Norway
 
 ## Description
 
-Straumsnu.no is a web app for planning scuba dives in Saltstraumen. 
-The app fetches tidal info from Norwegian authorities Kartverket and displays it in a suitable way. 
+Straumsnu.no is a web app for displaying predicted turning times of the tidel current of Saltstraumen. 
+
+The app fetches tidal info from Norwegian authorities Kartverket and displays it in a suitable way.
 The app currently running on Straumsnu.no is written in asp.net. It is not available on Github. 
 
 This repo holds a new Straumsnu app being developed. It will be written in javascript without frameworks.
@@ -29,26 +30,24 @@ The data set is on XML format
 </tide>
 ```
 
-
 The waterlevel elements here is what we are looking for: 
 * The predicted time of high/low tide in Bodø
 * The predicted water level at this times
 
-Scuba dive planners need to know when the tide turns in Saltsraumen, which occurs 1 hour 41 minutes after high/low tide in Bodø.
-So we need to add 1h41m to the predicted times. 
+* Scuba dive planners need to know when the tide in Saltsraumen will turn. This occurs 1 hour 41 minutes after high/low tide in Bodø.
+So we need to add 101 min to the predicted times. 
+* Scuba dive planners also need to know the difference between previous and current amplitude. This is a good measure on how strong the current will be.
+* Because we are using Javascript, we need to convert data to json to operate on it.
+* Since prediction data hardly changes at all, we want to cache data.
+* We also want to show moon phases to the user
 
-Because we are using Javascript, we need to convert data to json to operate on it.
-
-Since prediction data hardly changes at all, we want to cache data.
-
-We want to show moon phases to the user. 
-
-cache.js: Get and cache data
-xmlText2json: Convert from XML to json
-tidetimeshifter.js: Add 1:41
-UI.js: Functions rendering HTML
-moonphases.js: 100 years of hard coded moon phases
-models.js: Converting given data to objects handy for UI rendering
-straumsnu.js: Setting up event handlers and calling tidetimeshifter
+## Code files ##
+* straumsnu.js:       Set up event handlers and calling tidetimeshifter for 7 days
+* tidetimeshifter.js: Set up url, fetch data, convert til JSON and add 1:41 to times
+* cache.js:           Get and cache data
+* xmlText2json:       Convert from XML to json
+* moonphases.js:      100 years of hard coded moon phases
+* models.js:          Converting given data to viewmodel objects handy for UI rendering
+* UI.js:              Functions rendering HTML
 
 
