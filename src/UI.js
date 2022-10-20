@@ -8,9 +8,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-           <li class="nav-item"><a href="/Uke/IDag" class="nav-link">I dag</a></li>
-           <li class="nav-item"><a href="/Om" class="nav-link">Om</a></li>
-           <li class="nav-item"><a href="/Kontakt" class="nav-link">Kontakt</a></li>
+           <li class="nav-item"><a href="/Home/Today" class="nav-link">I dag</a></li>
+           <li class="nav-item"><a href="/Home/About" class="nav-link">Om</a></li>
+           <li class="nav-item"><a href="/Home/Contact" class="nav-link">Kontakt</a></li>
       </ul>
     </div>
   </div>
