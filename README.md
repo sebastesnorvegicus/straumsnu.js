@@ -23,7 +23,7 @@ This repo holds a new Straumsnu app being developed. It will be written in javas
 * Clone/fork Github repo
 * Install dependencies:
 ``` 
-npx install
+npm install
 ```
 * Build and launch app on local development server:
 ``` 
