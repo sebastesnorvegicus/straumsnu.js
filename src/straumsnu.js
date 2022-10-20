@@ -75,7 +75,7 @@ function setInitialState() {
 
 function setDateFromPath() {
     const path = window.location.pathname;
-    if (path.startsWith("/Uke/")) {
+    if (path.startsWith("/Home/Index/")) {
         const datePath = path.substring(5);
         const date = moment(datePath);
         if (date._isValid) {
@@ -94,8 +94,8 @@ var state = {
 };
 
 function updateUrlFromDate() {
-    if (window.location.pathname.startsWith("/Uke")) {
-        window.history.pushState("", "", "/Uke/" + state.date.format("yyyy-MM-DD"));
+    if (window.location.pathname.startsWith("/Home/Index")) {
+        window.history.pushState("", "", "/Home/Index/" + state.date.format("yyyy-MM-DD"));
     }
 }
 
@@ -130,16 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
     moment.locale('nb');
     
     renderNav(document.getElementById("header"));
-    if (window.location.pathname === '/Om') {
+    if (window.location.pathname === '/Home/About') {
         setInitialState();
         renderAbout(document.getElementById("container"));
         getAndRenderDays(2, renderAboutDay);
         renderFooter(document.getElementById("container"), state);
-    } else if (window.location.pathname === '/Kontakt') {
+    } else if (window.location.pathname === 'Home/Contact') {
         renderContact(document.getElementById("container"));
     } else {
-        if (!window.location.pathname.startsWith("/Uke")) {
-            window.history.pushState("", "", "/Uke");
+        if (!window.location.pathname.startsWith("/Home/")) {
+            window.history.pushState("", "", "/Home/Index");
         }
         setInitialState();
         setDateFromPath();
