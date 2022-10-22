@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "parcel": "^2.4.0"
-  },
-  "dependencies": {
-    "bootstrap": "^5.1.3",
-    "moment": "^2.29.1"
-  }
-}
