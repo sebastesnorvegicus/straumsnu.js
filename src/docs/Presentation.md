@@ -30,14 +30,14 @@ The predicted amplitudes dataset is on XML format, and contains times and levels
 </tide>
 ```
 
-The waterlevel elements here what we are looking for: 
+The waterlevel elements are the interesting data for this app: 
 * The predicted time of high/low tide in Bodø
-* The predicted water level at this times
+* The predicted water level at these times
 
 What does the app do with this information?
 * Scuba dive planners need to know when the tide in Saltsraumen will turn. This occurs 1 hour 41 minutes after high/low tide in Bodø. So we need to add 101 minutes to the predicted times. 
-* Scuba dive planners also need to know the difference between previous and current amplitude. This is a good measure on how strong the current will be, and must be calculated.
-* Because we are using Javascript, we need to convert data to json to operate on it.
+* We also need to calculate the difference between previous and current amplitude. This difference is a good measure on how strong the current will be.
+* Because we are using Javascript, we need to convert kartverket's XML data to json to operate on it.
 * Since prediction data rarely changes, we want to cache data to improve performance
 * We also want to show moon phases to the user
 
