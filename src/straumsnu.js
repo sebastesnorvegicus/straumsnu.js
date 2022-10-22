@@ -128,25 +128,36 @@ function getAndRenderDays(dayCount, renderer) {
 document.addEventListener('DOMContentLoaded', () => {
     require('moment/locale/nb');
     moment.locale('nb');
+    var container = document.getElementById("container");
+    var header = document.getElementById("header");
+
+    renderNav(header);
+
+    console.log(window.location.pathname);
     
-    renderNav(document.getElementById("header"));
-    if (window.location.pathname === '/Home/About') {
-        setInitialState();
-        renderAbout(document.getElementById("container"));
-        getAndRenderDays(2, renderAboutDay);
-        renderFooter(document.getElementById("container"), state);
-    } else if (window.location.pathname === 'Home/Contact') {
-        renderContact(document.getElementById("container"));
-    } else {
-        if (!window.location.pathname.startsWith("/Home/")) {
-            window.history.pushState("", "", "/Home/Index");
+    switch (window.location.pathname) {
+        case '/Home/About': {
+            setInitialState();
+            renderAbout(container);
+            getAndRenderDays(2, renderAboutDay);
+            renderFooter(document.getElementById("container"), state);
+            break;
         }
-        setInitialState();
-        setDateFromPath();
-        renderHome(document.getElementById("container"));
-        setDatePickerValue(state.date.format("yyyy-MM-DD"));
-        addControlsEventListeners();
-        getAndRenderDays(7, renderDays);
-        renderFooter(document.getElementById("container"), state);
+        case '/Home/Contact': {
+            renderContact(container);
+            break;
+        } 
+        default: {
+            if (!window.location.pathname.startsWith("/Home/")) {
+                window.history.pushState("", "", "/Home/Index");
+            }
+            setInitialState();
+            setDateFromPath();
+            renderHome(container);
+            setDatePickerValue(state.date.format("yyyy-MM-DD"));
+            addControlsEventListeners();
+            getAndRenderDays(7, renderDays);
+            renderFooter(container, state);
+        }
     }
 });
