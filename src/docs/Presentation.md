@@ -3,7 +3,7 @@ Display turning times of the tidal current in Saltstraumen, Norway
 
 ## Description
 
-Straumsnu.no is a web app for displaying predicted turning times of the tidel current of Saltstraumen. 
+Straumsnu.no is a web app for displaying predicted turning times of the tidal current of Saltstraumen. 
 
 The app fetches tidal info from Norwegian authorities Kartverket and displays it in a suitable way.
 The app currently running on Straumsnu.no is written in asp.net. It is not available on Github. 
@@ -11,9 +11,9 @@ The app currently running on Straumsnu.no is written in asp.net. It is not avail
 This repo holds a new Straumsnu app being developed. It will be written in javascript without frameworks.
 
 ## Specifications
-Kartverket API supplies tidal data for Norway. One of the data sets is predicted amplitudes: Times and levels of future high and low tide.  
+Kartverket API supplies tidal data for Norway. One of the datasets is Predicted amplitudes for locations i Norway. 
 
-The data set is on XML format
+The predicted amplitudes dataset is on XML format, and contains times and levels of high and low tide:  
 
 ```
 <tide>
@@ -30,24 +30,22 @@ The data set is on XML format
 </tide>
 ```
 
-The waterlevel elements here is what we are looking for: 
+The waterlevel elements here what we are looking for: 
 * The predicted time of high/low tide in Bodø
 * The predicted water level at this times
 
-* Scuba dive planners need to know when the tide in Saltsraumen will turn. This occurs 1 hour 41 minutes after high/low tide in Bodø.
-So we need to add 101 min to the predicted times. 
-* Scuba dive planners also need to know the difference between previous and current amplitude. This is a good measure on how strong the current will be.
+What does the app do with this information?
+* Scuba dive planners need to know when the tide in Saltsraumen will turn. This occurs 1 hour 41 minutes after high/low tide in Bodø. So we need to add 101 minutes to the predicted times. 
+* Scuba dive planners also need to know the difference between previous and current amplitude. This is a good measure on how strong the current will be, and must be calculated.
 * Because we are using Javascript, we need to convert data to json to operate on it.
-* Since prediction data hardly changes at all, we want to cache data.
+* Since prediction data rarely changes, we want to cache data to improve performance
 * We also want to show moon phases to the user
 
 ## Code files ##
 * straumsnu.js:       Set up event handlers and calling tidetimeshifter for 7 days
-* tidetimeshifter.js: Set up url, fetch data, convert til JSON and add 1:41 to times
+* tidetimeshifter.js: Set up url, call code that fetches data and converts to JSON. Then it adds 1:41 to fetched times.
 * cache.js:           Get and cache data
 * xmlText2json:       Convert from XML to json
 * moonphases.js:      100 years of hard coded moon phases
 * models.js:          Converting given data to viewmodel objects handy for UI rendering
 * UI.js:              Functions rendering HTML
-
-
