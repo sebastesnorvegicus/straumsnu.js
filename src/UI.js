@@ -166,10 +166,10 @@ function renderAboutDay(daysTableBodyElement, days, state) {
                 Det er ${state.now.format("dddd D. MMMM")}, og klokka er ${state.now.format("HH:mm")}.<br />
             </p>
             <p style="font-size:larger">
-                Tabellen viser at neste straumsnu er ved <strong>${next.flag === "high" ? "flo" : "fjære"}</strong> sjø
+                Tabellen viser at neste straumsnu er ved <strong>${next.flag === "Flo" ? "flo" : "fjære"}</strong> sjø
                 ${next.shiftedTime.startOf('day').isSame(state.now.startOf('day')) ? "" : "i morgen"} 
                 klokka <strong>${next.shiftedTimeDisplayText}</strong>.<br/>
-                Nivået vil da være ${next.level} cm, <strong>${Math.abs(next.diff)} </strong> ${next.diff > 0 ? "høyere" : "lavere"} enn ved ${next.flag === "high" ? "fjære" : "flo"}.
+                Nivået vil da være ${next.level} cm, <strong>${Math.abs(next.diff)} </strong> ${next.diff > 0 ? "høyere" : "lavere"} enn ved ${next.flag === "Flo" ? "fjære" : "flo"}.
             </p>
         </div>`;
     var tbl = daysTableBodyElement.parentNode;
