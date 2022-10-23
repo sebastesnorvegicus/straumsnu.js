@@ -133,8 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderNav(header);
 
-    console.log(window.location.pathname);
-    
     switch (window.location.pathname) {
         case '/Home/About': {
             setInitialState();
