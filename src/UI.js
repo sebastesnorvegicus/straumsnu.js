@@ -118,8 +118,7 @@ function renderDays(daysTableBodyElement, days) {
                                 <td>${level.flag}</td>
                                 <td>${level.timeDisplayText}</td>
                                 <td>${level.add}</td>
-                                <td class="table-highlighted-column" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}
-                                ${level.utcOffsetDiff !== 0 ? "*" : "" }</td>
+                                <td class="table-highlighted-column" style="background-color: aliceblue;">${level.shiftedTimeDisplayText}&nbsp;${level.utcOffsetDiff !== 0 ? "*" : "" }</td>
                                 <td class="rightadjust">${level.level}</td>
                                 <td class="rightadjust table-highlighted-column" style="background-color: aliceblue;">${level.diff}</td>
                             </tr>`;
