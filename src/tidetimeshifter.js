@@ -26,7 +26,7 @@ async function getShiftedLevels(from, days, shiftMinutes) {
     const getFrom = getMinimumFrom.clone().startOf('month');
     const getTo = getMinimumTo.clone().endOf('month');
 
-    const url = `https://api.sehavniva.no/tideapi.php?lat=67.288290&lon=14.390813&fromtime=${getFrom.format()}&totime=${getTo.format()}&datatype=tab&refcode=cd&place=&file=&lang=nb&interval=10&dst=1&tzone=&tide_request=locationdata`;
+    const url = `https://vannstand.kartverket.no/tideapi.php?lat=67.288290&lon=14.390813&fromtime=${getFrom.format()}&totime=${getTo.format()}&datatype=tab&refcode=cd&place=&file=&lang=nb&interval=10&dst=1&tzone=&tide_request=locationdata`;
 
     console.log("Period of interest : ", from.format(), to.format());
     console.log("Period to get/cache: ", getFrom.format(), getTo.format());
