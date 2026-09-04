@@ -1,3 +1,5 @@
+const baseUrl = new URL('.', import.meta.url).href;
+
     function renderNav(header) {
         header.innerHTML = `
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -223,7 +225,7 @@ function getMoonPhaseHTML(moonPhase) {
             default: displayText = "Invalid moonphase " + moonPhase;
                 break;
         }
-        return `<center><br /><br /><img width="12" height="12" Title="${displayText}" src="./images/${moonPhase}.svg" alt="Månefase ${moonPhase}" /></center>`
+        return `<center><br /><br /><img width="12" height="12" Title="${displayText}" src="${baseUrl}images/${moonPhase}.svg" alt="Månefase ${moonPhase}" /></center>`
     }
 }
 
