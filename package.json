@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --dist-dir dist --public-url /straumsnu.js/"
+  },
   "dependencies": {
     "bootstrap": "^5.1.1",
     "moment": "^2.30.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.3"
   }
 }
