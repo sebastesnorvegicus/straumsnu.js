@@ -1,4 +1,4 @@
-import moment from "moment";
+﻿import moment from "moment";
 
 function GetMoonPhaseByDay(day) {
     const hit = MoonPhases.filter(m => m.time.isSame(day, 'day'));
@@ -14,7 +14,7 @@ function createMomentFromDateTimeData(y, m, d, h, mi, s) {
 }
 
 const MoonPhases = [
-    { time: createMomentFromDateTimeData(2015, 6, 09, 17, 43, 00), phase: "LastQuarter" },
+    { time: createMomentFromDateTimeData(2015, 6, 9, 17, 43, 0), phase: "LastQuarter" },
     { time: createMomentFromDateTimeData(2015, 6, 16, 14, 5, 19), phase: "NewMoon" },
     { time: createMomentFromDateTimeData(2015, 6, 24, 11, 2, 31), phase: "FirstQuarter" },
     { time: createMomentFromDateTimeData(2015, 7, 2, 2, 19, 34), phase: "FullMoon" },
