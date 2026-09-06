@@ -1,4 +1,4 @@
-const baseUrl = new URL('.', import.meta.url).href;
+const baseUrl = import.meta.url.replace(/\/[^/]*$/, '/');
 
     function renderNav(header) {
         header.innerHTML = `
