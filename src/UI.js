@@ -249,7 +249,7 @@ function renderFooter(container, state) {
         Data: <a href="https://www.kartverket.no/api-og-data/tidevann-og-vannstandsdata" target="_blank">Kartverket</a>
         <br>
         Med forbehold om feil.<br>
-        <a href="mailto:pedersendag@gmail.com">Dag Pedersen</a> © 2009 - 2022
+        <a href="mailto:pedersendag@gmail.com">Dag Pedersen</a> © 2009 - 2026
     </footer>`;
     container.appendChild(div);
 }
