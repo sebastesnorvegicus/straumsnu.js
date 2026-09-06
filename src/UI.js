@@ -1,4 +1,14 @@
-const baseUrl = import.meta.url.replace(/\/[^/]*$/, '/');
+import newMoonUrl from 'url:./images/newMoon.svg';
+import fullMoonUrl from 'url:./images/fullMoon.svg';
+import firstQuarterUrl from 'url:./images/firstquarter.svg';
+import lastQuarterUrl from 'url:./images/lastquarter.svg';
+
+const moonImages = {
+    NewMoon: newMoonUrl,
+    FullMoon: fullMoonUrl,
+    FirstQuarter: firstQuarterUrl,
+    LastQuarter: lastQuarterUrl
+};
 
     function renderNav(header) {
         header.innerHTML = `
@@ -225,7 +235,7 @@ function getMoonPhaseHTML(moonPhase) {
             default: displayText = "Invalid moonphase " + moonPhase;
                 break;
         }
-        return `<center><br /><br /><img width="12" height="12" Title="${displayText}" src="${baseUrl}images/${moonPhase}.svg" alt="Månefase ${moonPhase}" /></center>`
+        return `<center><br /><br /><img width="12" height="12" Title="${displayText}" src="${moonImages[moonPhase] ?? ''}" alt="Månefase ${moonPhase}" /></center>`
     }
 }
 
